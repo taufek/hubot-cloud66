@@ -20,3 +20,49 @@ module.exports = (robot) ->
 
   robot.hear /orly/, (res) ->
     res.send "yarly"
+
+  robot.respond /stack list/, (res) =>
+    getStacks(robot)
+      .then (stacks) ->
+        stacks.forEach (item) =>
+          output = {
+            'environment': item.environment,
+            'is_busy': item.is_busy,
+            'name': item.name,
+            'uuid': item.uuid,
+          }
+          res.send(output)
+
+  robot.respond /deploy (.*) (.*)/, (res) =>
+    environment = res.match[1]
+    stack_name = res.match[2]
+    getStacks(robot)
+      .then (stacks) =>
+        stack = stacks.find (item) =>
+          item.name == stack_name && item.environment == environment
+
+        return invalidStack() unless stack
+
+        deployStack(robot, stack)
+      .then (response) =>
+        res.send(response.message)
+      .catch (message) =>
+        res.send(message)
+
+
+  getStacks = (robot) =>
+    new Promise (resolve, reject) =>
+      robot.http('https://app.cloud66.com/api/3/stacks.json')
+        .header('Authorization', "Bearer #{process.env.CLOUD66_ACCESS_TOKEN}")
+        .get() (err, response, body) =>
+          resolve(JSON.parse(body).response)
+
+  deployStack = (robot, stack) =>
+    new Promise (resolve, reject) =>
+      robot.http("https://app.cloud66.com/api/3/stacks/#{stack.uuid}/deployments")
+        .header('Authorization', "Bearer #{process.env.CLOUD66_ACCESS_TOKEN}")
+        .post() (err, response, body) =>
+          resolve(JSON.parse(body).response)
+
+  invalidStack = () ->
+    Promise.reject('Invalid stack_name')
