@@ -1,6 +1,6 @@
 #!/bin/bash
 
 # bootstrap environment
-# source script/bootstrap
+source script/bootstrap
 
 mocha --require coffee-script/register test/*
