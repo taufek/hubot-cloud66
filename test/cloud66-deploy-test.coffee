@@ -35,13 +35,13 @@ describe 'cloud66', ->
         .reply(200, @deploy_response)
 
       co(() =>
-        yield @room.user.say('alice', '@hubot deploy development backend_app')
+        yield @room.user.say('alice', '@hubot cloud66 deploy development backend_app')
         yield new Promise.delay(500)
       )
 
     it 'responds to deploy', ->
       expect(@room.messages).to.eql [
-        ['alice', '@hubot deploy development backend_app']
+        ['alice', '@hubot cloud66 deploy development backend_app']
         ['hubot', 'Stack queued for redeployment']
       ]
 
@@ -52,13 +52,13 @@ describe 'cloud66', ->
         .reply(200, stacks_response)
 
       co(() =>
-        yield @room.user.say('alice', '@hubot deploy development non_existing_app')
+        yield @room.user.say('alice', '@hubot cloud66 deploy development non_existing_app')
         yield new Promise.delay(500)
       )
 
     it 'responds to deploy', ->
       expect(@room.messages).to.eql [
-        ['alice', '@hubot deploy development non_existing_app']
+        ['alice', '@hubot cloud66 deploy development non_existing_app']
         ['hubot', 'Invalid stack_name']
       ]
 

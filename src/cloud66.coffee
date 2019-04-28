@@ -15,7 +15,7 @@
 #   Taufek Johar <taufek@gmail.com>
 
 module.exports = (robot) ->
-  robot.respond /stack list/, (res) =>
+  robot.respond /(?:cloud66|c66) stacks/, (res) =>
     getStacks(robot)
       .then (stacks) ->
         stacks.forEach (item) =>
@@ -27,7 +27,7 @@ module.exports = (robot) ->
           }
           res.send(output)
 
-  robot.respond /deploy (.*) (.*)/, (res) =>
+  robot.respond /(?:cloud66|c66) deploy (.*) (.*)/, (res) =>
     environment = res.match[1]
     stack_name = res.match[2]
     getStacks(robot)

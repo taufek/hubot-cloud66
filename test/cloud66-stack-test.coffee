@@ -24,13 +24,13 @@ describe 'cloud66', ->
         .reply(200, stacks_response)
 
       co(() =>
-        yield @room.user.say('alice', '@hubot stack list')
+        yield @room.user.say('alice', '@hubot cloud66 stacks')
         yield new Promise.delay(500)
       )
 
     it 'responds to stack', ->
       expect(@room.messages).to.eql [
-        ['alice', '@hubot stack list']
+        ['alice', '@hubot cloud66 stacks']
         ['hubot', {
           'environment': 'development',
           'is_busy': false,
