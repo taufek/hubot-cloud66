@@ -31,16 +31,16 @@ describe 'cloud66', ->
     it 'responds to stack', ->
       expect(@room.messages).to.eql [
         ['alice', '@hubot cloud66 stacks']
-        ['hubot', {
+        ['hubot', JSON.stringify({
           'environment': 'development',
           'is_busy': false,
           'name': 'frontend_app',
           'uuid': 'abc-123',
-        }]
-        ['hubot', {
+        })]
+        ['hubot', JSON.stringify({
           'environment': 'development',
           'is_busy': false,
           'name': 'backend_app',
           'uuid': 'abc-345',
-        }]
+        })]
       ]

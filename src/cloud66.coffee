@@ -19,12 +19,12 @@ module.exports = (robot) ->
     getStacks(robot)
       .then (stacks) ->
         stacks.forEach (item) =>
-          output = {
+          output = JSON.stringify({
             'environment': item.environment,
             'is_busy': item.is_busy,
             'name': item.name,
             'uuid': item.uuid,
-          }
+          })
           res.send(output)
 
   robot.respond /(?:cloud66|c66) deploy (.*) (.*)/, (res) =>
