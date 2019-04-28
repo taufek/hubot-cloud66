@@ -35,12 +35,12 @@ describe 'cloud66', ->
           'environment': 'development',
           'is_busy': false,
           'name': 'frontend_app',
-          'uuid': 'abc-123',
+          'uid': 'abc-123',
         })]
         ['hubot', JSON.stringify({
           'environment': 'development',
           'is_busy': false,
           'name': 'backend_app',
-          'uuid': 'abc-345',
+          'uid': 'abc-345',
         })]
       ]

@@ -22,7 +22,7 @@ describe 'cloud66', ->
       @deploy_response = {
         response: {
           ok: true,
-          message: 'Stack queued for redeployment'
+          message: 'Stack starting redeployment'
         }
       }
 
@@ -42,7 +42,8 @@ describe 'cloud66', ->
     it 'responds to deploy', ->
       expect(@room.messages).to.eql [
         ['alice', '@hubot cloud66 deploy development backend_app']
-        ['hubot', 'Stack queued for redeployment']
+        ['hubot', 'Deploying development backend_app (abc-345)']
+        ['hubot', 'Stack starting redeployment']
       ]
 
   context 'deploy with non_existing stack_name', ->

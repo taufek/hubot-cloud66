@@ -23,7 +23,7 @@ module.exports = (robot) ->
             'environment': item.environment,
             'is_busy': item.is_busy,
             'name': item.name,
-            'uuid': item.uuid,
+            'uid': item.uid,
           })
           res.send(output)
 
@@ -37,9 +37,11 @@ module.exports = (robot) ->
 
         return invalidStack() unless stack
 
+        res.send("Deploying #{environment} #{stack.name} (#{stack.uid})")
+
         deployStack(robot, stack)
-      .then (response) =>
-        res.send(response.message)
+      .then (message) =>
+        res.send(message)
       .catch (message) =>
         res.send(message)
 
@@ -53,10 +55,11 @@ module.exports = (robot) ->
 
   deployStack = (robot, stack) =>
     new Promise (resolve, reject) =>
-      robot.http("https://app.cloud66.com/api/3/stacks/#{stack.uuid}/deployments")
+      data = JSON.stringify({})
+      robot.http("https://app.cloud66.com/api/3/stacks/#{stack.uid}/deployments")
         .header('Authorization', "Bearer #{process.env.CLOUD66_ACCESS_TOKEN}")
-        .post() (err, response, body) =>
-          resolve(JSON.parse(body).response)
+        .post(data) (err, response, body) =>
+          resolve(JSON.parse(body).response.message)
 
   invalidStack = () ->
     Promise.reject('Invalid stack_name')
