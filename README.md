@@ -1,5 +1,7 @@
 # hubot-cloud66
 
+[![CircleCI](https://circleci.com/gh/taufek/hubot-cloud66.svg?style=svg)](https://circleci.com/gh/taufek/hubot-cloud66)
+
 Hubot for Cloud66
 
 See [`src/cloud66.coffee`](src/cloud66.coffee) for full documentation.
