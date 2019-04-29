@@ -22,12 +22,7 @@ module.exports = (robot) ->
     getStacks(robot)
       .then (stacks) ->
         stacks.forEach (item) =>
-          output = JSON.stringify({
-            'environment': item.environment,
-            'is_busy': item.is_busy,
-            'name': item.name,
-            'uid': item.uid,
-          })
+          output = "#{item.name} (env: #{item.environment}, uid: #{item.uid})"
           res.send(output)
 
   robot.respond /(?:cloud66|c66) redeploy (\w*) (.*)/, (res) =>
@@ -60,7 +55,17 @@ module.exports = (robot) ->
 
         getDeployments(robot, stack)
       .then (deployments) =>
-        res.send(JSON.stringify(deployments[0]))
+        deployment = deployments[0]
+
+        if deployment
+          status = if deployment.is_deploying then 'Deploying :hammer_and_wrench:' else 'Deployment completed :rocket:'
+          output = "#{environment} #{stack_name} deployment: #{status}"
+        else
+          output = "No deployment"
+
+        res.send(output)
+      .catch (message) =>
+        res.send(message)
 
   getStacks = (robot) =>
     new Promise (resolve, reject) =>

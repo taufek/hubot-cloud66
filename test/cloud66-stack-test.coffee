@@ -31,22 +31,7 @@ describe 'cloud66', ->
     it 'responds to stack', ->
       expect(@room.messages).to.eql [
         ['alice', '@hubot cloud66 stacks']
-        ['hubot', JSON.stringify({
-          'environment': 'development',
-          'is_busy': false,
-          'name': 'frontend_app',
-          'uid': 'abc-123',
-        })]
-        ['hubot', JSON.stringify({
-          'environment': 'development',
-          'is_busy': false,
-          'name': 'backend_app',
-          'uid': 'abc-345',
-        })],
-        ['hubot', JSON.stringify({
-          'environment': 'development',
-          'is_busy': false,
-          'name': 'user app',
-          'uid': 'abc-567',
-        })]
+        ['hubot', "frontend_app (env: development, uid: abc-123)"]
+        ['hubot', "backend_app (env: development, uid: abc-345)"]
+        ['hubot', "user app (env: development, uid: abc-567)"]
       ]
