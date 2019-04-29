@@ -42,5 +42,11 @@ describe 'cloud66', ->
           'is_busy': false,
           'name': 'backend_app',
           'uid': 'abc-345',
+        })],
+        ['hubot', JSON.stringify({
+          'environment': 'development',
+          'is_busy': false,
+          'name': 'user app',
+          'uid': 'abc-567',
         })]
       ]

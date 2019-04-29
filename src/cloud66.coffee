@@ -30,7 +30,7 @@ module.exports = (robot) ->
           })
           res.send(output)
 
-  robot.respond /(?:cloud66|c66) redeploy (.*) (.*)/, (res) =>
+  robot.respond /(?:cloud66|c66) redeploy (\w*) (.*)/, (res) =>
     environment = res.match[1]
     stack_name = res.match[2]
     getStacks(robot)
@@ -48,7 +48,7 @@ module.exports = (robot) ->
       .catch (message) =>
         res.send(message)
 
-  robot.respond /(?:cloud66|c66) deployment (.*) (.*)/, (res) =>
+  robot.respond /(?:cloud66|c66) deployment (\w*) (.*)/, (res) =>
     environment = res.match[1]
     stack_name = res.match[2]
     getStacks(robot)

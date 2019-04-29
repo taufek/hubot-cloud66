@@ -11,6 +11,12 @@ exports.stacks_response = {
       name: 'backend_app'
       environment: 'development'
       is_busy: false
+    },
+    {
+      uid: 'abc-567',
+      name: 'user app'
+      environment: 'development'
+      is_busy: false
     }
   ]
 }
