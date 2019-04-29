@@ -46,7 +46,7 @@ Redeploy given environment and stack name.
 
 ```
 user1>> hubot cloud66 redeploy development backend_app
-hubot>> Stack queued for redeployment 
+hubot>> Stack queued for redeployment
 ```
 
 ### Stack Deployment
@@ -55,7 +55,7 @@ Latest deployment info for given environment and stack name.
 
 ```
 user1>> hubot cloud66 redeploy development backend_app
-hubot>> Stack queued for redeployment 
+hubot>> development backend_app deployment: Deployment completed 🚀
 ```
 
 ### Alias
@@ -64,7 +64,7 @@ hubot>> Stack queued for redeployment
 
 ```
 user1>> hubot c66 deploy development backend_app
-hubot>> Stack queued for redeployment 
+hubot>> Stack queued for redeployment
 ```
 
 ## NPM Module
