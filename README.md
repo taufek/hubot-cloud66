@@ -26,18 +26,10 @@ Display all available stacks.
 
 ```
 user1>> hubot cloud66 stacks
-hubot>> {
-  'environment': 'development',
-  'is_busy': false,
-  'name': 'frontend_app',
-  'uuid': 'abc-123',
-}
-hubot>> {
-  'environment': 'development',
-  'is_busy': false,
-  'name': 'backend_app',
-  'uuid': 'abc-345',
-}
+hubot>> 
+frontend_app (env: development, uid: abc-123)
+backend_app (env: development, uid: abc-345)
+user app (env: development, uid: abc-456)
 ```
 
 ### Stack Redeployment
@@ -49,7 +41,7 @@ user1>> hubot cloud66 redeploy development backend_app
 hubot>> Stack queued for redeployment
 ```
 
-### Stack Deployment
+### Stack Deployment Info/Status
 
 Latest deployment info for given environment and stack name.
 
