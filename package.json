@@ -1,10 +1,15 @@
 {
   "name": "hubot-cloud66",
   "description": "Hubot for Cloud66",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "author": "Taufek Johar <taufek@gmail.com>",
   "license": "MIT",
-  "keywords": "hubot, cloud66",
+  "keywords": [
+    "cloud66",
+    "hubot",
+    "hubot-scripts",
+    "slack"
+  ],
   "repository": {
     "type": "git",
     "url": "git://github.com/hubot-scripts/hubot-cloud66.git"
