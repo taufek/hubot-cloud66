@@ -17,7 +17,7 @@ describe 'cloud66', ->
   afterEach ->
     @room.destroy()
 
-  context 'deploy with existing stack_name', ->
+  context 'redeploy with existing stack_name', ->
     beforeEach ->
       @deploy_response = {
         response: {
@@ -35,31 +35,31 @@ describe 'cloud66', ->
         .reply(200, @deploy_response)
 
       co(() =>
-        yield @room.user.say('alice', '@hubot cloud66 deploy development backend_app')
+        yield @room.user.say('alice', '@hubot cloud66 redeploy development backend_app')
         yield new Promise.delay(500)
       )
 
-    it 'responds to deploy', ->
+    it 'responds to redeploy', ->
       expect(@room.messages).to.eql [
-        ['alice', '@hubot cloud66 deploy development backend_app']
+        ['alice', '@hubot cloud66 redeploy development backend_app']
         ['hubot', 'Deploying development backend_app (abc-345)']
         ['hubot', 'Stack starting redeployment']
       ]
 
-  context 'deploy with non_existing stack_name', ->
+  context 'redeploy with non_existing stack_name', ->
     beforeEach ->
       nock('https://app.cloud66.com')
         .get('/api/3/stacks.json')
         .reply(200, stacks_response)
 
       co(() =>
-        yield @room.user.say('alice', '@hubot cloud66 deploy development non_existing_app')
+        yield @room.user.say('alice', '@hubot cloud66 redeploy development non_existing_app')
         yield new Promise.delay(500)
       )
 
     it 'responds to deploy', ->
       expect(@room.messages).to.eql [
-        ['alice', '@hubot cloud66 deploy development non_existing_app']
+        ['alice', '@hubot cloud66 redeploy development non_existing_app']
         ['hubot', 'Invalid stack_name']
       ]
 

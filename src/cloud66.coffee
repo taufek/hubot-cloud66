@@ -6,7 +6,8 @@
 #
 # Commands:
 #   hubot cloud66 stacks - List of available stacks.
-#   hubot cloud66 deploy <environment> <stack_name> - Redeploy given environment and stack name.
+#   hubot cloud66 redeploy <environment> <stack_name> - Redeploy given environment and stack name.
+#   hubot cloud66 deployment <environment> <stack_name> - Latest deployment info for given environment and stack name.
 #
 # Notes:
 #   Go to https://app.cloud66.com/personal_tokens/new to create Cloud66 access token.
@@ -15,6 +16,8 @@
 #   Taufek Johar <taufek@gmail.com>
 
 module.exports = (robot) ->
+  API_URL = 'https://app.cloud66.com/api/3/'
+
   robot.respond /(?:cloud66|c66) stacks/, (res) =>
     getStacks(robot)
       .then (stacks) ->
@@ -27,7 +30,7 @@ module.exports = (robot) ->
           })
           res.send(output)
 
-  robot.respond /(?:cloud66|c66) deploy (.*) (.*)/, (res) =>
+  robot.respond /(?:cloud66|c66) redeploy (.*) (.*)/, (res) =>
     environment = res.match[1]
     stack_name = res.match[2]
     getStacks(robot)
@@ -45,10 +48,23 @@ module.exports = (robot) ->
       .catch (message) =>
         res.send(message)
 
+  robot.respond /(?:cloud66|c66) deployment (.*) (.*)/, (res) =>
+    environment = res.match[1]
+    stack_name = res.match[2]
+    getStacks(robot)
+      .then (stacks) =>
+        stack = stacks.find (item) =>
+          item.name == stack_name && item.environment == environment
+
+        return invalidStack() unless stack
+
+        getDeployments(robot, stack)
+      .then (deployments) =>
+        res.send(JSON.stringify(deployments[0]))
 
   getStacks = (robot) =>
     new Promise (resolve, reject) =>
-      robot.http('https://app.cloud66.com/api/3/stacks.json')
+      robot.http("#{API_URL}stacks.json")
         .header('Authorization', "Bearer #{process.env.CLOUD66_ACCESS_TOKEN}")
         .get() (err, response, body) =>
           resolve(JSON.parse(body).response)
@@ -56,10 +72,17 @@ module.exports = (robot) ->
   deployStack = (robot, stack) =>
     new Promise (resolve, reject) =>
       data = JSON.stringify({})
-      robot.http("https://app.cloud66.com/api/3/stacks/#{stack.uid}/deployments")
+      robot.http("#{API_URL}stacks/#{stack.uid}/deployments")
         .header('Authorization', "Bearer #{process.env.CLOUD66_ACCESS_TOKEN}")
         .post(data) (err, response, body) =>
           resolve(JSON.parse(body).response.message)
 
   invalidStack = () ->
     Promise.reject('Invalid stack_name')
+
+  getDeployments = (robot, stack) =>
+    new Promise (resolve, reject) =>
+      robot.http("#{API_URL}stacks/#{stack.uid}/deployments")
+        .header('Authorization', "Bearer #{process.env.CLOUD66_ACCESS_TOKEN}")
+        .get() (err, response, body) =>
+          resolve(JSON.parse(body).response)

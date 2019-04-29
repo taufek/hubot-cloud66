@@ -22,6 +22,8 @@ Then add **hubot-cloud66** to your `external-scripts.json`:
 
 ### Stacks List
 
+Display all available stacks.
+
 ```
 user1>> hubot cloud66 stacks
 hubot>> {
@@ -40,8 +42,19 @@ hubot>> {
 
 ### Stack Redeployment
 
+Redeploy given environment and stack name.
+
 ```
-user1>> hubot cloud66 deploy development backend_app
+user1>> hubot cloud66 redeploy development backend_app
+hubot>> Stack queued for redeployment 
+```
+
+### Stack Deployment
+
+Latest deployment info for given environment and stack name.
+
+```
+user1>> hubot cloud66 redeploy development backend_app
 hubot>> Stack queued for redeployment 
 ```
 
