@@ -2,14 +2,14 @@
 #   Hubot for Cloud66
 #
 # Configuration:
-#   LIST_OF_ENV_VARS_TO_SET
+#   CLOUD66_ACCESS_TOKEN
 #
 # Commands:
-#   hubot hello - <what the respond trigger does>
-#   orly - <what the hear trigger does>
+#   hubot cloud66 stacks - List of available stacks.
+#   hubot cloud66 deploy <environment> <stack_name> - Redeploy given environment and stack name.
 #
 # Notes:
-#   <optional notes required for the script>
+#   Go to https://app.cloud66.com/personal_tokens/new to create Cloud66 access token.
 #
 # Author:
 #   Taufek Johar <taufek@gmail.com>

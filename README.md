@@ -45,6 +45,15 @@ user1>> hubot cloud66 deploy development backend_app
 hubot>> Stack queued for redeployment 
 ```
 
+### Alias
+
+`c66` is an alias for `cloud66`, so you could also run below
+
+```
+user1>> hubot c66 deploy development backend_app
+hubot>> Stack queued for redeployment 
+```
+
 ## NPM Module
 
 https://www.npmjs.com/package/hubot-cloud66
