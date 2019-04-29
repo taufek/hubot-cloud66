@@ -5,9 +5,9 @@
 #   CLOUD66_ACCESS_TOKEN
 #
 # Commands:
-#   hubot cloud66 stacks - List of available stacks.
-#   hubot cloud66 redeploy <environment> <stack_name> - Redeploy given environment and stack name.
-#   hubot cloud66 stack <environment> <stack_name> - Stack current info for given environment and stack name.
+#   hubot cloud66|c66 stacks - List of available stacks Hey ya.
+#   hubot cloud66|c66 redeploy <environment> <stack_name> - Redeploy given environment and stack name.
+#   hubot cloud66|c66 stack <environment> <stack_name> - Stack current info for given environment and stack name.
 #
 # Notes:
 #   Go to https://app.cloud66.com/personal_tokens/new to create Cloud66 access token.
