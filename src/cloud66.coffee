@@ -7,7 +7,7 @@
 # Commands:
 #   hubot cloud66 stacks - List of available stacks.
 #   hubot cloud66 redeploy <environment> <stack_name> - Redeploy given environment and stack name.
-#   hubot cloud66 deployment <environment> <stack_name> - Latest deployment info for given environment and stack name.
+#   hubot cloud66 stack <environment> <stack_name> - Stack current info for given environment and stack name.
 #
 # Notes:
 #   Go to https://app.cloud66.com/personal_tokens/new to create Cloud66 access token.
@@ -43,7 +43,7 @@ module.exports = (robot) ->
       .catch (message) =>
         res.send(message)
 
-  robot.respond /(?:cloud66|c66) deployment (\w*) (.*)/, (res) =>
+  robot.respond /(?:cloud66|c66) stack (\w*) (.*)/, (res) =>
     environment = res.match[1]
     stack_name = res.match[2]
     getStacks(robot)
@@ -53,15 +53,8 @@ module.exports = (robot) ->
 
         return invalidStack() unless stack
 
-        getDeployments(robot, stack)
-      .then (deployments) =>
-        deployment = deployments[0]
-
-        if deployment
-          status = if deployment.is_deploying then 'Deploying :hammer_and_wrench:' else 'Deployment completed :rocket:'
-          output = "#{environment} #{stack_name} deployment: #{status}"
-        else
-          output = "No deployment"
+        status = if stack.status > 1 then 'Deploying :hammer_and_wrench:' else 'Live :rocket:'
+        output = "#{environment} #{stack_name} deployment: #{status}"
 
         res.send(output)
       .catch (message) =>
@@ -84,10 +77,3 @@ module.exports = (robot) ->
 
   invalidStack = () ->
     Promise.reject('Invalid stack_name')
-
-  getDeployments = (robot, stack) =>
-    new Promise (resolve, reject) =>
-      robot.http("#{API_URL}stacks/#{stack.uid}/deployments")
-        .header('Authorization', "Bearer #{process.env.CLOUD66_ACCESS_TOKEN}")
-        .get() (err, response, body) =>
-          resolve(JSON.parse(body).response)

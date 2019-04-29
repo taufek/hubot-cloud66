@@ -20,6 +20,10 @@ Then add **hubot-cloud66** to your `external-scripts.json`:
 ]
 ```
 
+## Environment Variables
+
+`CLOUD66_ACCESS_TOKEN` = Cloud66 access token. Go to https://app.cloud66.com/personal_tokens/new to generate one.
+
 ## Commands
 
 ### Stacks List
@@ -43,13 +47,13 @@ user1>> hubot cloud66 redeploy development backend_app
 hubot>> Stack queued for redeployment
 ```
 
-### Stack Deployment Info/Status
+### Stack Info/Status
 
-Latest deployment info for given environment and stack name.
+Stack current info for given environment and stack name.
 
 ```
-user1>> hubot cloud66 redeploy development backend_app
-hubot>> development backend_app deployment: Deployment completed 🚀
+user1>> hubot cloud66 stack development backend_app
+hubot>> development backend_app status: Live 🚀
 ```
 
 ### Alias
@@ -57,8 +61,8 @@ hubot>> development backend_app deployment: Deployment completed 🚀
 `c66` is an alias for `cloud66`, so you could also run below
 
 ```
-user1>> hubot c66 deploy development backend_app
-hubot>> Stack queued for redeployment
+user1>> hubot c66 stack development backend_app
+hubot>> development backend_app status: Live 🚀
 ```
 
 ## NPM Module
