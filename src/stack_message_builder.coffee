@@ -2,6 +2,7 @@ exports.stack_message_builder = (robot, stack) =>
   status = if stack.status > 1 then 'Deploying :hammer_and_wrench:' else 'Live :rocket:'
 
   if robot.adapterName == 'slack'
+    environmentEmoji = if stack.environment.startsWith 'prod' then ':earth_asia:' else ':globe_with_meridians:'
     output = {
       attachments: [
         {
@@ -11,7 +12,7 @@ exports.stack_message_builder = (robot, stack) =>
           fields: [
             {
               title: 'Environment',
-              value: stack.environment,
+              value: "#{stack.environment} #{environmentEmoji}",
               short: true,
             },
             {

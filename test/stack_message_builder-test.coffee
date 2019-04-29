@@ -19,11 +19,12 @@ describe 'stack_message_builder', ->
         }
 
         @expectedStatus = 'Live :rocket:'
+        @expectedEnvironment = 'development :globe_with_meridians:'
 
       it 'returns slack message', ->
         output = stack_message_builder(@robot, @stack)
   
-        expect(output).to.eql expectedSlackOutput(@stack, @expectedStatus)
+        expect(output).to.eql expectedSlackOutput(@stack, @expectedStatus, @expectedEnvironment)
 
     context 'deploying status', () ->
       beforeEach ->
@@ -34,13 +35,30 @@ describe 'stack_message_builder', ->
         }
 
         @expectedStatus = 'Deploying :hammer_and_wrench:'
+        @expectedEnvironment = 'development :globe_with_meridians:'
 
       it 'returns slack message', ->
         output = stack_message_builder(@robot, @stack)
 
-        expect(output).to.eql expectedSlackOutput(@stack, @expectedStatus)
+        expect(output).to.eql expectedSlackOutput(@stack, @expectedStatus, @expectedEnvironment)
 
-    expectedSlackOutput = (stack, status) =>
+    context 'production environment', () ->
+      beforeEach ->
+        @stack = {
+          name: 'backend_app',
+          environment: 'production',
+          status: 1
+        }
+
+        @expectedStatus = 'Live :rocket:'
+        @expectedEnvironment = 'production :earth_asia:'
+
+      it 'returns slack message', ->
+        output = stack_message_builder(@robot, @stack)
+
+        expect(output).to.eql expectedSlackOutput(@stack, @expectedStatus, @expectedEnvironment)
+
+    expectedSlackOutput = (stack, status, environment) =>
       attachments: [
         {
           title: stack.name,
@@ -49,7 +67,7 @@ describe 'stack_message_builder', ->
           fields: [
             {
               title: 'Environment',
-              value: stack.environment,
+              value: environment,
               short: true,
             },
             {
