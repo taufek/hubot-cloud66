@@ -15,15 +15,19 @@
 # Author:
 #   Taufek Johar <taufek@gmail.com>
 
+{ stack_message_builder } = require './stack_message_builder.coffee'
+
 module.exports = (robot) ->
   API_URL = 'https://app.cloud66.com/api/3/'
 
   robot.respond /(?:cloud66|c66) stacks/, (res) =>
     getStacks(robot)
-      .then (stacks) ->
-        stacks.forEach (item) =>
-          output = "#{item.name} (env: #{item.environment}, uid: #{item.uid})"
+      .then (stacks) =>
+        stacks.forEach (stack) =>
+          output = stack_message_builder(robot, stack)
           res.send(output)
+      .catch (message) =>
+        res.send(message)
 
   robot.respond /(?:cloud66|c66) redeploy (\w*) (.*)/, (res) =>
     environment = res.match[1]
@@ -53,8 +57,7 @@ module.exports = (robot) ->
 
         return invalidStack() unless stack
 
-        status = if stack.status > 1 then 'Deploying :hammer_and_wrench:' else 'Live :rocket:'
-        output = "#{environment} #{stack_name} deployment: #{status}"
+        output = stack_message_builder(robot, stack)
 
         res.send(output)
       .catch (message) =>
