@@ -22,7 +22,7 @@ Then add **hubot-cloud66** to your `external-scripts.json`:
 
 ## Environment Variables
 
-`CLOUD66_ACCESS_TOKEN` = Cloud66 personal access token. Go to https://app.cloud66.com/personal_tokens/new to generate one.
+`CLOUD66_ACCESS_TOKEN` = Cloud66 personal access token. Go to [Cloud66 personal tokens page](https://app.cloud66.com/personal_tokens/new) to generate one.
 
 `CLOUD66_DELAY_IN_MS` - Delay in millisecond before start polling Cloud66 for Stack status update after running `redeploy`.
 
@@ -36,7 +36,7 @@ Then add **hubot-cloud66** to your `external-scripts.json`:
 
 Display all available stacks.
 
-```
+```bash
 user1>> hubot cloud66 stacks
 hubot>> 
 frontend_app (env: development, uid: abc-123)
@@ -48,7 +48,7 @@ user app (env: development, uid: abc-456)
 
 Redeploy given environment and stack name.
 
-```
+```bash
 user1>> hubot cloud66 redeploy development backend_app
 hubot>> Stack queued for redeployment
 hubot>> development backend_app status: Deploying 🛠️
@@ -60,7 +60,7 @@ hubot>> development backend_app status: Live 🚀
 
 Stack current info for given environment and stack name.
 
-```
+```bash
 user1>> hubot cloud66 stack development backend_app
 hubot>> development backend_app status: Live 🚀
 ```
@@ -69,11 +69,11 @@ hubot>> development backend_app status: Live 🚀
 
 `c66` is an alias for `cloud66`, so you could also run below
 
-```
+```bash
 user1>> hubot c66 stack development backend_app
 hubot>> development backend_app status: Live 🚀
 ```
 
 ## NPM Module
 
-https://www.npmjs.com/package/hubot-cloud66
+[NPM module page](https://www.npmjs.com/package/hubot-cloud66)
