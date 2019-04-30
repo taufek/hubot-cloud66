@@ -1,7 +1,7 @@
 {
   "name": "hubot-cloud66",
   "description": "Hubot for Cloud66",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "author": "Taufek Johar <taufek@gmail.com>",
   "license": "MIT",
   "keywords": [

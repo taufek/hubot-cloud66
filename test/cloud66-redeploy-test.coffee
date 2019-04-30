@@ -87,6 +87,70 @@ describe 'cloud66', ->
       ]
     )
 
+  context 'redeploy with extra space in between', ->
+    beforeEach ->
+      @deploy_response = {
+        response: {
+          ok: true,
+          message: 'Stack starting redeployment'
+        }
+      }
+
+      nock('https://app.cloud66.com')
+        .get('/api/3/stacks.json')
+        .reply(200, stacks_response)
+
+      nock('https://app.cloud66.com')
+        .post("/api/3/stacks/abc-345/deployments")
+        .reply(200, @deploy_response)
+
+      nock('https://app.cloud66.com')
+        .get("/api/3/stacks/abc-345")
+        .reply(200, {
+          response: {
+            uid: 'abc-345',
+            name: 'backend_app',
+            environment: 'development',
+            status: 6
+          }
+        })
+
+      nock('https://app.cloud66.com')
+        .get("/api/3/stacks/abc-345")
+        .reply(200, {
+          response: {
+            uid: 'abc-345',
+            name: 'backend_app',
+            environment: 'development',
+            status: 6
+          }
+        })
+
+      nock('https://app.cloud66.com')
+        .get("/api/3/stacks/abc-345")
+        .reply(200, {
+          response: {
+            uid: 'abc-345',
+            name: 'backend_app',
+            environment: 'development',
+            status: 1
+          }
+        })
+
+      co(() =>
+        yield @room.user.say('alice', '@hubot  cloud66  redeploy  development  backend_app')
+        yield new Promise.delay(1000)
+      )
+
+    it('responds to redeploy', () ->
+      expect(@room.messages).to.eql [
+        ['alice', '@hubot  cloud66  redeploy  development  backend_app']
+        ['hubot', 'Stack starting redeployment']
+        ['hubot', 'development backend_app: Deploying :hammer_and_wrench:']
+        ['hubot', 'development backend_app: Live :rocket:']
+      ]
+    )
+
   context 'redeploy hits max attempts', ->
     beforeEach ->
       @initialAttempts = process.env.CLOUD66_MAX_ATTEMPTS

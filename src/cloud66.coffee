@@ -23,7 +23,7 @@
 module.exports = (robot) ->
   API_URL = 'https://app.cloud66.com/api/3/'
 
-  robot.respond /(?:cloud66|c66) stacks/, (res) =>
+  robot.respond /(?:cloud66|c66)\s+stacks/, (res) =>
     getStacks(robot)
       .then (stacks) =>
         stacks.forEach (stack) =>
@@ -32,7 +32,7 @@ module.exports = (robot) ->
       .catch (message) =>
         res.send(message)
 
-  robot.respond /(?:cloud66|c66) redeploy (\w*) (.*)/, (res) =>
+  robot.respond /(?:cloud66|c66)\s+redeploy\s+(\w*)\s+(.*)/, (res) =>
     environment = res.match[1]
     stack_name = res.match[2]
     getStacks(robot)
@@ -59,7 +59,7 @@ module.exports = (robot) ->
       .catch (message) =>
         res.send(message)
 
-  robot.respond /(?:cloud66|c66) stack (\w*) (.*)/, (res) =>
+  robot.respond /(?:cloud66|c66)\s+stack\s+(\w*)\s+(.*)/, (res) =>
     environment = res.match[1]
     stack_name = res.match[2]
     getStacks(robot)
