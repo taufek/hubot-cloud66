@@ -25,11 +25,11 @@ module.exports = (robot) ->
 
   robot.respond /(?:cloud66|c66)\s+stacks/, (res) ->
     getStacks(robot)
-      .then (stacks) =>
+      .then (stacks) ->
         stacks.forEach (stack) ->
           output = stack_message_builder(robot, stack)
           res.send(output)
-      .catch (message) =>
+      .catch (message) ->
         res.send(message)
 
   robot.respond /(?:cloud66|c66)\s+redeploy\s+(\w*)\s+(.*)/, (res) ->
@@ -37,7 +37,7 @@ module.exports = (robot) ->
     stack_name = res.match[2]
     getStacks(robot)
       .then (stacks) ->
-        stack = stacks.find (item) =>
+        stack = stacks.find (item) ->
           item.name == stack_name && item.environment == environment
 
         return invalidStack() unless stack
@@ -76,27 +76,27 @@ module.exports = (robot) ->
         res.send(message)
 
   getStacks = (robot) ->
-    new Promise (resolve, reject) =>
+    new Promise (resolve, reject) ->
       robot.http("#{API_URL}stacks.json")
         .header('Authorization', "Bearer #{process.env.CLOUD66_ACCESS_TOKEN}")
         .get() (err, response, body) ->
           resolve(JSON.parse(body).response)
 
   getStack = (robot, uid) ->
-    new Promise (resolve, reject) =>
+    new Promise (resolve, reject) ->
       robot.http("#{API_URL}stacks/#{uid}")
         .header('Authorization', "Bearer #{process.env.CLOUD66_ACCESS_TOKEN}")
         .get() (err, response, body) ->
           resolve(JSON.parse(body).response)
 
-  waitForLiveStack = (robot, stack) =>
+  waitForLiveStack = (robot, stack) ->
     @attempt = 0
     new Promise (resolve, reject) ->
       callback = () -> pollingStack(robot, stack, resolve, reject)
       timeout = process.env.CLOUD66_DELAY_IN_MS || 60000
       setTimeout callback, timeout
 
-  pollingStack = (robot, stack, resolve, reject) =>
+  pollingStack = (robot, stack, resolve, reject) ->
     robot.http("#{API_URL}stacks/#{stack.uid}")
       .header('Authorization', "Bearer #{process.env.CLOUD66_ACCESS_TOKEN}")
       .get() (err, response, body) =>
