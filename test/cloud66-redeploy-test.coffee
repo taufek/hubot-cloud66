@@ -58,6 +58,17 @@ describe 'cloud66', ->
             uid: 'abc-345',
             name: 'backend_app',
             environment: 'development',
+            status: 6
+          }
+        })
+
+      nock('https://app.cloud66.com')
+        .get("/api/3/stacks/abc-345")
+        .reply(200, {
+          response: {
+            uid: 'abc-345',
+            name: 'backend_app',
+            environment: 'development',
             status: 1
           }
         })
@@ -118,6 +129,17 @@ describe 'cloud66', ->
           }
         })
 
+      nock('https://app.cloud66.com')
+        .get("/api/3/stacks/abc-345")
+        .reply(200, {
+          response: {
+            uid: 'abc-345',
+            name: 'backend_app',
+            environment: 'development',
+            status: 6
+          }
+        })
+
       co(() =>
         yield @room.user.say('alice', '@hubot cloud66 redeploy development backend_app')
         yield new Promise.delay(1000)
@@ -151,6 +173,17 @@ describe 'cloud66', ->
       nock('https://app.cloud66.com')
         .post("/api/3/stacks/abc-567/deployments")
         .reply(200, @deploy_response)
+
+      nock('https://app.cloud66.com')
+        .get("/api/3/stacks/abc-567")
+        .reply(200, {
+          response: {
+            uid: 'abc-567',
+            name: 'user app',
+            environment: 'development',
+            status: 6
+          }
+        })
 
       nock('https://app.cloud66.com')
         .get("/api/3/stacks/abc-567")

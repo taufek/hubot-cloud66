@@ -47,6 +47,8 @@ module.exports = (robot) ->
 
         res.send(message)
 
+        getStack(robot, stack.uid)
+      .then (stack) =>
         output = stack_message_builder(robot, stack)
         res.send(output)
 
@@ -76,6 +78,13 @@ module.exports = (robot) ->
   getStacks = (robot) =>
     new Promise (resolve, reject) =>
       robot.http("#{API_URL}stacks.json")
+        .header('Authorization', "Bearer #{process.env.CLOUD66_ACCESS_TOKEN}")
+        .get() (err, response, body) =>
+          resolve(JSON.parse(body).response)
+
+  getStack = (robot, uid) =>
+    new Promise (resolve, reject) =>
+      robot.http("#{API_URL}stacks/#{uid}")
         .header('Authorization', "Bearer #{process.env.CLOUD66_ACCESS_TOKEN}")
         .get() (err, response, body) =>
           resolve(JSON.parse(body).response)
