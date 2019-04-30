@@ -23,16 +23,16 @@
 module.exports = (robot) ->
   API_URL = 'https://app.cloud66.com/api/3/'
 
-  robot.respond /(?:cloud66|c66)\s+stacks/, (res) =>
+  robot.respond /(?:cloud66|c66)\s+stacks/, (res) ->
     getStacks(robot)
       .then (stacks) =>
-        stacks.forEach (stack) =>
+        stacks.forEach (stack) ->
           output = stack_message_builder(robot, stack)
           res.send(output)
       .catch (message) =>
         res.send(message)
 
-  robot.respond /(?:cloud66|c66)\s+redeploy\s+(\w*)\s+(.*)/, (res) =>
+  robot.respond /(?:cloud66|c66)\s+redeploy\s+(\w*)\s+(.*)/, (res) ->
     environment = res.match[1]
     stack_name = res.match[2]
     getStacks(robot)
@@ -43,7 +43,7 @@ module.exports = (robot) ->
         return invalidStack() unless stack
 
         deployStack(robot, stack)
-      .then ({ message, stack }) =>
+      .then ({ message, stack }) ->
 
         res.send(message)
 
@@ -53,17 +53,17 @@ module.exports = (robot) ->
         res.send(output)
 
         waitForLiveStack(robot, stack)
-      .then (stack) =>
+      .then (stack) ->
         output = stack_message_builder(robot, stack)
         res.send(output)
       .catch (message) =>
         res.send(message)
 
-  robot.respond /(?:cloud66|c66)\s+stack\s+(\w*)\s+(.*)/, (res) =>
+  robot.respond /(?:cloud66|c66)\s+stack\s+(\w*)\s+(.*)/, (res) ->
     environment = res.match[1]
     stack_name = res.match[2]
     getStacks(robot)
-      .then (stacks) =>
+      .then (stacks) ->
         stack = stacks.find (item) =>
           item.name == stack_name && item.environment == environment
 
@@ -72,27 +72,27 @@ module.exports = (robot) ->
         output = stack_message_builder(robot, stack)
 
         res.send(output)
-      .catch (message) =>
+      .catch (message) ->
         res.send(message)
 
-  getStacks = (robot) =>
+  getStacks = (robot) ->
     new Promise (resolve, reject) =>
       robot.http("#{API_URL}stacks.json")
         .header('Authorization', "Bearer #{process.env.CLOUD66_ACCESS_TOKEN}")
         .get() (err, response, body) =>
           resolve(JSON.parse(body).response)
 
-  getStack = (robot, uid) =>
+  getStack = (robot, uid) ->
     new Promise (resolve, reject) =>
       robot.http("#{API_URL}stacks/#{uid}")
         .header('Authorization', "Bearer #{process.env.CLOUD66_ACCESS_TOKEN}")
-        .get() (err, response, body) =>
+        .get() (err, response, body) ->
           resolve(JSON.parse(body).response)
 
   waitForLiveStack = (robot, stack) =>
     @attempt = 0
     new Promise (resolve, reject) =>
-      callback = () => pollingStack(robot, stack, resolve, reject)
+      callback = () -> pollingStack(robot, stack, resolve, reject)
       timeout = process.env.CLOUD66_DELAY_IN_MS || 60000
       setTimeout callback, timeout
 
@@ -103,17 +103,17 @@ module.exports = (robot) ->
         @attempt++
         updatedStack = JSON.parse(body).response
         return resolve(updatedStack) if updatedStack.status == 1
-        callback = () => pollingStack(robot, updatedStack, resolve, reject)
+        callback = () -> pollingStack(robot, updatedStack, resolve, reject)
         return reject('Deployment taking too long. Run `stack` command to get status update.') if @attempt > (process.env.CLOUD66_MAX_ATTEMPTS || 10)
         timeout = process.env.CLOUD66_INTERVAL_IN_MS || 60000
         setTimeout callback, timeout
 
-  deployStack = (robot, stack) =>
-    new Promise (resolve, reject) =>
+  deployStack = (robot, stack) ->
+    new Promise (resolve, reject) ->
       data = JSON.stringify({})
       robot.http("#{API_URL}stacks/#{stack.uid}/deployments")
         .header('Authorization', "Bearer #{process.env.CLOUD66_ACCESS_TOKEN}")
-        .post(data) (err, response, body) =>
+        .post(data) (err, response, body) ->
           resolve({ message: JSON.parse(body).response.message, stack: stack })
 
   invalidStack = () ->

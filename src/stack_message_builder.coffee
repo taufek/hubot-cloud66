@@ -1,4 +1,4 @@
-exports.stack_message_builder = (robot, stack) =>
+exports.stack_message_builder = (robot, stack) ->
   status = if stack.status > 1 then 'Deploying :hammer_and_wrench:' else 'Live :rocket:'
 
   if robot.adapterName == 'slack'

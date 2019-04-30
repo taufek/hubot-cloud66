@@ -58,7 +58,7 @@ describe 'stack_message_builder', ->
 
         expect(output).to.eql expectedSlackOutput(@stack, @expectedStatus, @expectedEnvironment)
 
-    expectedSlackOutput = (stack, status, environment) =>
+    expectedSlackOutput = (stack, status, environment) ->
       attachments: [
         {
           title: stack.name,
@@ -115,5 +115,5 @@ describe 'stack_message_builder', ->
 
         expect(output).to.eql expectedOtherOutput(@stack, @expectedStatus)
 
-    expectedOtherOutput = (stack, status) =>
+    expectedOtherOutput = (stack, status) ->
       output = "#{stack.environment} #{stack.name}: #{status}"
