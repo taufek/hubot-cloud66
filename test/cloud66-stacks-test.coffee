@@ -32,6 +32,6 @@ describe 'cloud66', ->
       expect(@room.messages).to.eql [
         ['alice', '@hubot cloud66 stacks']
         ['hubot', "development frontend_app: Live :rocket:"]
-        ['hubot', "development backend_app: Live :rocket:"]
-        ['hubot', "development user app: Live :rocket:"]
+        ['hubot', "development backend_app: Deploying :hammer_and_wrench:"]
+        ['hubot', "development user app: Deploying :hammer_and_wrench:"]
       ]

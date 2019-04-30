@@ -31,7 +31,7 @@ describe 'cloud66', ->
     it 'responds to stack', ->
       expect(@room.messages).to.eql [
         ['alice', '@hubot cloud66 stack development backend_app']
-        ['hubot', 'development backend_app: Live :rocket:']
+        ['hubot', 'development backend_app: Deploying :hammer_and_wrench:']
       ]
 
   context 'stack with existing stack_name containing space', ->
@@ -48,7 +48,7 @@ describe 'cloud66', ->
     it 'responds to stack', ->
       expect(@room.messages).to.eql [
         ['alice', '@hubot cloud66 stack development user app']
-        ['hubot', 'development user app: Live :rocket:']
+        ['hubot', 'development user app: Deploying :hammer_and_wrench:']
       ]
 
   context 'stack with non_existing stack_name', ->
