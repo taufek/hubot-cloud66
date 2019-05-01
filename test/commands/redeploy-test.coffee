@@ -6,11 +6,11 @@ nock = require 'nock'
 
 expect = chai.expect
 
-helper = new Helper('../src/cloud66.coffee')
+helper = new Helper('../../src/cloud66.coffee')
 
-{ stacks_response } = require './mocks/stacks_response.coffee'
+{ stacks_response } = require '../mocks/stacks_response.coffee'
 
-describe 'cloud66', ->
+describe 'redeploy command', ->
   beforeEach ->
     @initialInterval = process.env.CLOUD66_INTERVAL_IN_MS
     @initialDelay = process.env.CLOUD66_INTERVAL_IN_MS

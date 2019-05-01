@@ -6,18 +6,18 @@ nock = require 'nock'
 
 expect = chai.expect
 
-helper = new Helper('../src/cloud66.coffee')
+helper = new Helper('../../src/cloud66.coffee')
 
-{ stacks_response } = require './mocks/stacks_response.coffee'
+{ stacks_response } = require '../mocks/stacks_response.coffee'
 
-describe 'cloud66', ->
+describe 'stacks command', ->
   beforeEach ->
     @room = helper.createRoom()
 
   afterEach ->
     @room.destroy()
 
-  context 'stack info', ->
+  context 'stacks', ->
     beforeEach ->
       nock('https://app.cloud66.com')
         .get('/api/3/stacks.json')
