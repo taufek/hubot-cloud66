@@ -2,7 +2,7 @@
 # 	stacks command
 
 { stack_message_builder } = require '../message_builders/stack.coffee'
-{ getStacks } = require '../utilities.coffee'
+{ getStacks } = require '../apis/stacks.coffee'
 
 module.exports = (robot) ->
   robot.respond /(?:cloud66|c66)\s+stacks/, (res) ->
