@@ -1,7 +1,7 @@
 {
   "name": "hubot-cloud66",
   "description": "Hubot for Cloud66",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "author": "Taufek Johar <taufek@gmail.com>",
   "license": "MIT",
   "keywords": [
@@ -12,10 +12,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/hubot-scripts/hubot-cloud66.git"
+    "url": "git://github.com/taufek/hubot-cloud66.git"
   },
   "bugs": {
-    "url": "https://github.com/hubot-scripts/hubot-cloud66/issues"
+    "url": "https://github.com/taufek/hubot-cloud66/issues"
   },
   "dependencies": {},
   "peerDependencies": {
