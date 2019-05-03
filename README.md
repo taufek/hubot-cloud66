@@ -33,6 +33,16 @@ Then add **hubot-cloud66** to your `external-scripts.json`:
 
 ## Commands
 
+### Stack Deployment Info
+
+Stack latest deployment info for given environment and stack name.
+
+```bash
+user1>> hubot cloud66 deployment development backend_app
+hubot>> Here is the latest deployment commit hash for development backend_app 
+hubot>> Commit https://github.com/taufek/backend_app/commit/5675fcd8f9e6dc534ecf1410c0661c066097e310 
+```
+
 ### Stacks List
 
 Display all available stacks.
@@ -45,6 +55,15 @@ backend_app (env: development, uid: abc-345)
 user app (env: development, uid: abc-456)
 ```
 
+### Stack Info/Status
+
+Stack current info for given environment and stack name.
+
+```bash
+user1>> hubot cloud66 stack development backend_app
+hubot>> development backend_app status: Live 🚀
+```
+
 ### Stack Redeployment
 
 Redeploy given environment and stack name.
@@ -54,15 +73,6 @@ user1>> hubot cloud66 redeploy development backend_app
 hubot>> Stack queued for redeployment
 hubot>> development backend_app status: Deploying 🛠️
 ... few minutes later
-hubot>> development backend_app status: Live 🚀
-```
-
-### Stack Info/Status
-
-Stack current info for given environment and stack name.
-
-```bash
-user1>> hubot cloud66 stack development backend_app
 hubot>> development backend_app status: Live 🚀
 ```
 

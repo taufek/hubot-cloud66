@@ -8,3 +8,10 @@ exports.deployStack = (robot, stack) ->
       .header('Authorization', "Bearer #{CLOUD66_ACCESS_TOKEN}")
       .post(data) (err, response, body) ->
         resolve({ message: JSON.parse(body).response.message, stack: stack })
+
+exports.deployments = (robot, stack) ->
+  new Promise (resolve, reject) ->
+    robot.http("#{API_URL}stacks/#{stack.uid}/deployments")
+      .header('Authorization', "Bearer #{CLOUD66_ACCESS_TOKEN}")
+      .get() (err, response, body) ->
+        resolve({ deployments: JSON.parse(body).response, stack: stack })
