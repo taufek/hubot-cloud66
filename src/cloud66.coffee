@@ -6,6 +6,7 @@
 #   CLOUD66_DELAY_IN_MS - Delay in millisecond before start polling Cloud66 for Stack status update after running `redeploy`.
 #   CLOUD66_INTERVAL_IN_MS - Interval in millisecond between polling requests for Cloud66 Stack status update.
 #   CLOUD66_MAX_ATTEMPTS - Maximum attempts to poll Cloud66 for Stack status update.
+#   CLOUD66_ENABLE_SLACK_CALLBACK - Enable Slack callback for interactive buttons. You will need to configure your Slack app with callback url.
 #
 # Commands:
 #   hubot cloud66|c66 deployment <environment> <stack_name> - Latest deployment info for given environment and Stack name.
