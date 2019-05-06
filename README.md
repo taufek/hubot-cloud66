@@ -31,6 +31,8 @@ Then add **hubot-cloud66** to your `external-scripts.json`:
 
 `CLOUD66_MAX_ATTEMPTS` - Maximum attempts to poll Cloud66 for Stack status update.
 
+`CLOUD66_ENABLE_SLACK_CALLBACK` - Enable Slack callback for interactive buttons. You will need to configure your Slack app with callback url.
+
 ## Commands
 
 ### Stack Deployment Info
