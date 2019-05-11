@@ -10,13 +10,14 @@
 module.exports = (robot) ->
   robot.router.post '/hubot/cloud66', (request, response) ->
     data = if request.body.payload? then JSON.parse request.body.payload else request.body
+    channelId = data['channel']['id']
 
     if data.actions[0].name == 'stack'
       getStack(robot, data['actions'][0]['value'])
         .then (stack) ->
           output = stack_message_builder(robot, stack)
 
-          robot.messageRoom 'dev', output
+          robot.messageRoom channelId, output
 
     if data.actions[0].name == 'redeploy'
       stack_uid = data['actions'][0]['value']
@@ -30,21 +31,21 @@ module.exports = (robot) ->
 
           deployStack(robot, stack)
         .then ({ message, stack }) ->
-          robot.messageRoom 'dev', message
+          robot.messageRoom channelId, message
 
           getStack(robot, stack.uid)
         .then (stack) ->
           output = stack_message_builder(robot, stack)
 
-          robot.messageRoom 'dev', output
+          robot.messageRoom channelId, output
 
           waitForLiveStack(robot, stack)
         .then (stack) ->
           output = stack_message_builder(robot, stack)
 
-          robot.messageRoom 'dev', output
+          robot.messageRoom channelId, output
         .catch (message) ->
-          robot.messageRoom 'dev', message
+          robot.messageRoom channelId, message
 
     if data.actions[0].name == 'deployment'
       getStack(robot, data['actions'][0]['value'])
@@ -55,12 +56,12 @@ module.exports = (robot) ->
 
           output = ''
           if deployment
-            robot.messageRoom 'dev', "Here is the latest deployment commit hash for #{stack.environment} #{stack.name}"
+            robot.messageRoom channelId, "Here is the latest deployment commit hash for #{stack.environment} #{stack.name}"
             output = deployment_message_builder(robot, deployment)
           else
-            robot.messageRoom 'dev', 'No deployment'
+            robot.messageRoom channelId, 'No deployment'
             output = stack_message_builder(robot, stack)
-          robot.messageRoom 'dev', output
+          robot.messageRoom channelId, output
 
     responses = ['OK Dokie', 'Your wish is my command', 'Consider it done', 'Right away']
 
