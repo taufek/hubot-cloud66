@@ -1,11 +1,9 @@
 # Description
 #   router
 
-{ getStacks, getStack, waitForLiveStack } = require '../apis/stacks.coffee'
-{ deployments, deployStack } = require '../apis/deployments.coffee'
-{ stack_message_builder } = require '../message_builders/stack.coffee'
-{ deployment_message_builder } = require '../message_builders/deployment.coffee'
-{ invalidStack } = require '../utilities.coffee'
+{ redeploy } = require '../services/redeploy.coffee'
+{ deployment } = require '../services/deployment.coffee'
+{ getStack } = require '../services/get_stack.coffee'
 
 module.exports = (robot) ->
   robot.router.post '/hubot/cloud66', (request, response) ->
@@ -13,55 +11,40 @@ module.exports = (robot) ->
     channelId = data['channel']['id']
 
     if data.actions[0].name == 'stack'
-      getStack(robot, data['actions'][0]['value'])
-        .then (stack) ->
-          output = stack_message_builder(robot, stack)
-
-          robot.messageRoom channelId, output
+      getStack(
+        robot
+        {
+          stack_uid: data['actions'][0]['value']
+        }
+        (message) ->
+          robot.messageRoom channelId, message
+        (message) ->
+          robot.messageRoom channelId, message
+      )
 
     if data.actions[0].name == 'redeploy'
-      stack_uid = data['actions'][0]['value']
-
-      getStacks(robot)
-        .then (stacks) ->
-          stack = stacks.find (item) ->
-            item.uid == stack_uid
-
-          return invalidStack() unless stack
-
-          deployStack(robot, stack)
-        .then ({ message, stack }) ->
+      redeploy(
+        robot
+        {
+          stack_uid: data['actions'][0]['value']
+        }
+        (message) ->
           robot.messageRoom channelId, message
-
-          getStack(robot, stack.uid)
-        .then (stack) ->
-          output = stack_message_builder(robot, stack)
-
-          robot.messageRoom channelId, output
-
-          waitForLiveStack(robot, stack)
-        .then (stack) ->
-          output = stack_message_builder(robot, stack)
-
-          robot.messageRoom channelId, output
-        .catch (message) ->
+        (message) ->
           robot.messageRoom channelId, message
+      )
 
     if data.actions[0].name == 'deployment'
-      getStack(robot, data['actions'][0]['value'])
-        .then (stack) ->
-          deployments(robot, stack)
-        .then ({ deployments, stack }) ->
-          deployment = deployments[0]
-
-          output = ''
-          if deployment
-            robot.messageRoom channelId, "Here is the latest deployment commit hash for #{stack.environment} #{stack.name}"
-            output = deployment_message_builder(robot, deployment)
-          else
-            robot.messageRoom channelId, 'No deployment'
-            output = stack_message_builder(robot, stack)
-          robot.messageRoom channelId, output
+      deployment(
+        robot
+        {
+          stack_uid: data['actions'][0]['value']
+        }
+        (message) ->
+          robot.messageRoom channelId, message
+        (message) ->
+          robot.messageRoom channelId, message
+      )
 
     responses = ['OK Dokie', 'Your wish is my command', 'Consider it done', 'Right away']
 

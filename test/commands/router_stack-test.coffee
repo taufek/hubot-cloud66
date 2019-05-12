@@ -7,6 +7,7 @@ http = require('http')
 
 expect = chai.expect
 helper = new Helper('../../src/cloud66.coffee')
+{ stacks_response } = require '../mocks/stacks_response.coffee'
 process.env.EXPRESS_PORT = 8080
 
 describe 'POST /hubot/cloud66', ->
@@ -40,15 +41,8 @@ describe 'POST /hubot/cloud66', ->
       }
 
       nock('https://app.cloud66.com')
-        .get("/api/3/stacks/abc-345")
-        .reply(200, {
-          response: {
-            uid: 'abc-345',
-            name: 'backend_app',
-            environment: 'development',
-            status: 6
-          }
-        })
+        .get('/api/3/stacks.json')
+        .reply(200, stacks_response)
 
       req = http.request params, (response) =>
         @response = response

@@ -1,23 +1,18 @@
 # Description
 #   stack command
 
-{ stack_message_builder } = require '../message_builders/stack.coffee'
-{ getStacks } = require '../apis/stacks.coffee'
-{ invalidStack } = require '../utilities.coffee'
+{ getStack } = require '../services/get_stack.coffee'
 
 module.exports = (robot) ->
   robot.respond /(?:cloud66|c66)\s+stack\s+(\w*)\s+(.*)/, (res) ->
-    environment = res.match[1]
-    stack_name = res.match[2]
-    getStacks(robot)
-      .then (stacks) ->
-        stack = stacks.find (item) ->
-          item.name == stack_name && item.environment == environment
-
-        return invalidStack() unless stack
-
-        output = stack_message_builder(robot, stack)
-
-        res.send(output)
-      .catch (message) ->
+    getStack(
+      robot
+      {
+        stack_environment: res.match[1]
+        stack_name: res.match[2]
+      }
+      (message) ->
         res.send(message)
+      (message) ->
+        res.send(message)
+    )
