@@ -7,7 +7,7 @@ http = require('http')
 
 expect = chai.expect
 helper = new Helper('../../src/cloud66.coffee')
-{ stack_response } = require '../mocks/stack_response.coffee'
+{ stacks_response } = require '../mocks/stacks_response.coffee'
 { deployments_response } = require '../mocks/deployments_response.coffee'
 process.env.EXPRESS_PORT = 8080
 
@@ -18,7 +18,7 @@ describe 'POST /hubot/cloud66', ->
   afterEach ->
     @room.destroy()
 
-  context 'deployment is redeploy', ->
+  context 'action is redeploy', ->
     beforeEach (done) ->
       data = {
         type: 'interactive_message',
@@ -42,8 +42,8 @@ describe 'POST /hubot/cloud66', ->
       }
 
       nock('https://app.cloud66.com')
-        .get('/api/3/stacks/abc-345')
-        .reply(200, stack_response)
+        .get('/api/3/stacks.json')
+        .reply(200, stacks_response)
 
       nock('https://app.cloud66.com')
         .get("/api/3/stacks/abc-345/deployments")

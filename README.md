@@ -115,7 +115,7 @@ that starts with `cloud_66` to `/hubot/cloud66`.
 Below is an example code of hubot router with `/hubot/slack` endpoint that
 redirects request to `/hubot/cloud66` endpoint.
 
-```
+```coffeescript
 http = require('http')
 
 module.exports = (robot) ->
