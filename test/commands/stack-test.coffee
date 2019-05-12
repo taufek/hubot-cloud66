@@ -8,7 +8,7 @@ expect = chai.expect
 
 helper = new Helper('../../src/cloud66.coffee')
 
-{ stacks_response } = require '../mocks/stacks_response.coffee'
+{ live_stacks_response } = require '../mocks/stacks_response.coffee'
 
 describe 'stack command', ->
   beforeEach ->
@@ -21,7 +21,7 @@ describe 'stack command', ->
     beforeEach ->
       nock('https://app.cloud66.com')
         .get('/api/3/stacks.json')
-        .reply(200, stacks_response)
+        .reply(200, live_stacks_response)
 
       co(() =>
         yield @room.user.say('alice', '@hubot cloud66 stack development backend_app')
@@ -31,14 +31,14 @@ describe 'stack command', ->
     it 'responds to stack', ->
       expect(@room.messages).to.eql [
         ['alice', '@hubot cloud66 stack development backend_app']
-        ['hubot', 'development backend_app: Deploying :hammer_and_wrench:']
+        ['hubot', 'development backend_app: Live :rocket:']
       ]
 
   context 'stack with extra space in between', ->
     beforeEach ->
       nock('https://app.cloud66.com')
         .get('/api/3/stacks.json')
-        .reply(200, stacks_response)
+        .reply(200, live_stacks_response)
 
       co(() =>
         yield @room.user.say('alice', '@hubot  cloud66  stack  development  backend_app')
@@ -48,14 +48,14 @@ describe 'stack command', ->
     it 'responds to stack', ->
       expect(@room.messages).to.eql [
         ['alice', '@hubot  cloud66  stack  development  backend_app']
-        ['hubot', 'development backend_app: Deploying :hammer_and_wrench:']
+        ['hubot', 'development backend_app: Live :rocket:']
       ]
 
   context 'stack with existing stack_name containing space', ->
     beforeEach ->
       nock('https://app.cloud66.com')
         .get('/api/3/stacks.json')
-        .reply(200, stacks_response)
+        .reply(200, live_stacks_response)
 
       co(() =>
         yield @room.user.say('alice', '@hubot cloud66 stack development user app')
@@ -65,14 +65,14 @@ describe 'stack command', ->
     it 'responds to stack', ->
       expect(@room.messages).to.eql [
         ['alice', '@hubot cloud66 stack development user app']
-        ['hubot', 'development user app: Deploying :hammer_and_wrench:']
+        ['hubot', 'development user app: Live :rocket:']
       ]
 
   context 'stack with non_existing stack_name', ->
     beforeEach ->
       nock('https://app.cloud66.com')
         .get('/api/3/stacks.json')
-        .reply(200, stacks_response)
+        .reply(200, live_stacks_response)
 
       co(() =>
         yield @room.user.say('alice', '@hubot cloud66 stack development non_existing_app')

@@ -8,7 +8,7 @@ expect = chai.expect
 
 helper = new Helper('../../src/cloud66.coffee')
 
-{ stacks_response } = require '../mocks/stacks_response.coffee'
+{ live_stacks_response } = require '../mocks/stacks_response.coffee'
 { deployments_response } = require '../mocks/deployments_response.coffee'
 
 describe 'deployment command', ->
@@ -22,7 +22,7 @@ describe 'deployment command', ->
     beforeEach ->
       nock('https://app.cloud66.com')
         .get('/api/3/stacks.json')
-        .reply(200, stacks_response)
+        .reply(200, live_stacks_response)
 
       nock('https://app.cloud66.com')
         .get("/api/3/stacks/abc-345/deployments")
@@ -45,7 +45,7 @@ describe 'deployment command', ->
     beforeEach ->
       nock('https://app.cloud66.com')
         .get('/api/3/stacks.json')
-        .reply(200, stacks_response)
+        .reply(200, live_stacks_response)
 
       nock('https://app.cloud66.com')
         .get("/api/3/stacks/abc-345/deployments")
@@ -68,7 +68,7 @@ describe 'deployment command', ->
     beforeEach ->
       nock('https://app.cloud66.com')
         .get('/api/3/stacks.json')
-        .reply(200, stacks_response)
+        .reply(200, live_stacks_response)
 
       nock('https://app.cloud66.com')
         .get("/api/3/stacks/abc-567/deployments")

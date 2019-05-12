@@ -8,7 +8,7 @@ expect = chai.expect
 
 helper = new Helper('../../src/cloud66.coffee')
 
-{ stacks_response } = require '../mocks/stacks_response.coffee'
+{ live_stacks_response, deploying_stacks_response } = require '../mocks/stacks_response.coffee'
 
 describe 'redeploy command', ->
   beforeEach ->
@@ -34,7 +34,7 @@ describe 'redeploy command', ->
 
       nock('https://app.cloud66.com')
         .get('/api/3/stacks.json')
-        .reply(200, stacks_response)
+        .reply(200, live_stacks_response)
 
       nock('https://app.cloud66.com')
         .post("/api/3/stacks/abc-345/deployments")
@@ -98,7 +98,7 @@ describe 'redeploy command', ->
 
       nock('https://app.cloud66.com')
         .get('/api/3/stacks.json')
-        .reply(200, stacks_response)
+        .reply(200, live_stacks_response)
 
       nock('https://app.cloud66.com')
         .post("/api/3/stacks/abc-345/deployments")
@@ -165,7 +165,7 @@ describe 'redeploy command', ->
 
       nock('https://app.cloud66.com')
         .get('/api/3/stacks.json')
-        .reply(200, stacks_response)
+        .reply(200, live_stacks_response)
 
       nock('https://app.cloud66.com')
         .post("/api/3/stacks/abc-345/deployments")
@@ -232,7 +232,7 @@ describe 'redeploy command', ->
 
       nock('https://app.cloud66.com')
         .get('/api/3/stacks.json')
-        .reply(200, stacks_response)
+        .reply(200, live_stacks_response)
 
       nock('https://app.cloud66.com')
         .post("/api/3/stacks/abc-567/deployments")
@@ -277,7 +277,7 @@ describe 'redeploy command', ->
     beforeEach ->
       nock('https://app.cloud66.com')
         .get('/api/3/stacks.json')
-        .reply(200, stacks_response)
+        .reply(200, live_stacks_response)
 
       co(() =>
         yield @room.user.say('alice', '@hubot cloud66 redeploy development non_existing_app')
@@ -290,3 +290,27 @@ describe 'redeploy command', ->
         ['hubot', 'Invalid stack_name']
       ]
 
+  context 'redeploy stack with in-progress deployment', ->
+    beforeEach ->
+      @deploy_response = {
+        response: {
+          ok: true,
+          message: 'Stack starting redeployment'
+        }
+      }
+
+      nock('https://app.cloud66.com')
+        .get('/api/3/stacks.json')
+        .reply(200, deploying_stacks_response)
+
+      co(() =>
+        yield @room.user.say('alice', '@hubot cloud66 redeploy development backend_app')
+        yield new Promise.delay(1000)
+      )
+
+    it('responds to redeploy', () ->
+      expect(@room.messages).to.eql [
+        ['alice', '@hubot cloud66 redeploy development backend_app']
+        ['hubot', 'Stack has in-progress deployment']
+      ]
+    )
