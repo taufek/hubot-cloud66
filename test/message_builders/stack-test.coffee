@@ -183,7 +183,7 @@ describe 'stack_message_builder', ->
       {
         text: 'What do you want to do?',
         fallback: 'You are unable to perform an action',
-        callback_id: 'cloud_66_deployment',
+        callback_id: 'cloud66',
         color: '#3AA3E3',
         attachment_type: 'default',
         actions: [
