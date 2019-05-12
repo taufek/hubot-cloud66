@@ -41,8 +41,8 @@ Stack latest deployment info for given environment and stack name.
 
 ```bash
 user1>> hubot cloud66 deployment development backend_app
-hubot>> Here is the latest deployment commit hash for development backend_app 
-hubot>> Commit https://github.com/taufek/backend_app/commit/5675fcd8f9e6dc534ecf1410c0661c066097e310 
+hubot>> Here is the latest deployment commit hash for development backend_app
+hubot>> Commit https://github.com/taufek/backend_app/commit/5675fcd8f9e6dc534ecf1410c0661c066097e310
 ```
 
 ### Stacks List
@@ -51,7 +51,7 @@ Display all available stacks.
 
 ```bash
 user1>> hubot cloud66 stacks
-hubot>> 
+hubot>>
 frontend_app (env: development, uid: abc-123)
 backend_app (env: development, uid: abc-345)
 user app (env: development, uid: abc-456)
@@ -85,6 +85,63 @@ hubot>> development backend_app status: Live 🚀
 ```bash
 user1>> hubot c66 stack development backend_app
 hubot>> development backend_app status: Live 🚀
+```
+
+## Slack Integration
+
+### Message Output
+
+Stack output with Slack callback disabled
+
+![Stack Output without callback](https://i.imgur.com/SxsezGo.png)
+
+Stack output with Slack callback enabled
+
+![Stack Output with callback](https://i.imgur.com/H2k0CsH.png)
+
+### Enabling Slack Callback
+
+Set `CLOUD66_ENABLE_SLACK_CALLBACK` environment variable to true.
+
+Then in your Slack App setup configure your action callback url to point
+to `hubot-cloud66` endpoint.
+
+![Stack callback url](https://i.imgur.com/s0psU6P.png)
+
+If you `hubot` already has a router, you can set the action callback url to
+your existing endpoint and redirect any post request with Slack callback_id
+starting with `cloud_66` to `/hubot/cloud66`.
+
+Below is an example code of hubot router with `/hubot/slack` endpoint that
+redirects request to `/hubot/cloud66` endpoint.
+
+```
+http = require('http')
+
+module.exports = (robot) ->
+  robot.router.post '/hubot/slack', (request, response) ->
+    data = if request.body.payload? then JSON.parse request.body.payload else request.body
+
+    if data.callback_id.startsWith 'cloud_66'
+      options = {
+        host: request.headers.host,
+        path: '/hubot/cloud66',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Content-Length': JSON.stringify(data).length
+        }
+      }
+
+    req = http.request options, (res) =>
+      res.on 'data', (d) =>
+        response.send(d)
+
+    req.on 'error', (error) =>
+      console.error(error)
+
+    req.write JSON.stringify(data)
+    req.end
 ```
 
 ## NPM Module
