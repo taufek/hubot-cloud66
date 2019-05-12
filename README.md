@@ -108,9 +108,9 @@ to `hubot-cloud66` endpoint.
 
 ![Stack callback url](https://i.imgur.com/s0psU6P.png)
 
-If you `hubot` already has a router, you can set the action callback url to
+If your `hubot` already has a router, you can set the action callback url to
 your existing endpoint and redirect any post request with Slack callback_id
-starting with `cloud_66` to `/hubot/cloud66`.
+that starts with `cloud_66` to `/hubot/cloud66`.
 
 Below is an example code of hubot router with `/hubot/slack` endpoint that
 redirects request to `/hubot/cloud66` endpoint.
