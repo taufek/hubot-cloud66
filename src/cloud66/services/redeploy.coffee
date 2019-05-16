@@ -1,7 +1,7 @@
-{ stack_message_builder } = require '../message_builders/stack.coffee'
-{ getStacks, getStack, waitForLiveStack } = require '../apis/stacks.coffee'
-{ deployStack } = require '../apis/deployments.coffee'
-{ invalidStack } = require '../utilities.coffee'
+{ stack_message_builder } = require '../message_builders/stack'
+{ getStacks, getStack, waitForLiveStack } = require '../apis/stacks'
+{ deployStack } = require '../apis/deployments'
+{ invalidStack } = require '../utilities'
 
 exports.redeploy = (robot, params, successCallback, failCallback) ->
   getStacks(robot)

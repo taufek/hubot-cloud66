@@ -1,7 +1,7 @@
 chai = require 'chai'
 expect = chai.expect
 
-{ stack_message_builder } = require '../../src/cloud66/message_builders/stack.coffee'
+{ stack_message_builder } = require '../../src/cloud66/message_builders/stack'
 
 describe 'stack_message_builder', ->
   context 'slack adapter', ->

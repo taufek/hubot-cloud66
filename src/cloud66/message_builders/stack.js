@@ -1,19 +1,21 @@
-exports.stack_message_builder = (robot, stack, showButton = false) ->
-  isLive = stack.status == 1
-  status = if isLive then 'Live :rocket:' else 'Deploying :hammer_and_wrench:'
+exports.stack_message_builder = (robot, stack) => {
+  const isLive = stack.status == 1
+  const status = isLive ? 'Live :rocket:' : 'Deploying :hammer_and_wrench:'
+  let output
 
-  if robot.adapterName == 'slack'
-    environmentEmoji = if stack.environment.startsWith 'prod' then ':earth_asia:' else ':globe_with_meridians:'
+  if (robot.adapterName == 'slack') {
+    const environmentEmoji = stack.environment.startsWith('prod') ? ':earth_asia:' : ':globe_with_meridians:'
+
     output = {
       attachments: [
         {
           title: stack.name,
           color: 'good',
-          fallback: "#{stack.name}, environment: #{stack.environment}, status: #{status}",
+          fallback: `${stack.name}, environment: ${stack.environment}, status: ${status}`,
           fields: [
             {
               title: 'Environment',
-              value: "#{stack.environment} #{environmentEmoji}",
+              value: `${stack.environment} ${environmentEmoji}`,
               short: true,
             },
             {
@@ -26,7 +28,7 @@ exports.stack_message_builder = (robot, stack, showButton = false) ->
       ]
     }
 
-    if process.env.CLOUD66_ENABLE_SLACK_CALLBACK == 'true' && isLive
+    if (process.env.CLOUD66_ENABLE_SLACK_CALLBACK == 'true' && isLive) {
       output.attachments.push(
         {
           text: 'What do you want to do?',
@@ -57,7 +59,7 @@ exports.stack_message_builder = (robot, stack, showButton = false) ->
               value: stack.uid,
               confirm: {
                 title: 'Are you sure?',
-                text: "This will deploy #{stack.environment} #{stack.name}.",
+                text: `This will deploy ${stack.environment} ${stack.name}.`,
                 ok_text: 'Deploy away!',
                 dismiss_text: 'No'
               }
@@ -65,8 +67,10 @@ exports.stack_message_builder = (robot, stack, showButton = false) ->
           ]
         }
       )
+    }
+  } else {
+    output = `${stack.environment} ${stack.name}: ${status}`
+  }
 
-    output
-  else
-    output = "#{stack.environment} #{stack.name}: #{status}"
-
+  return output
+}
