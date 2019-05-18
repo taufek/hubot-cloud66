@@ -1,4 +1,4 @@
-{
+const {
   CLOUD66_ACCESS_TOKEN
 } = process.env
 
