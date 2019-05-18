@@ -7,7 +7,7 @@ http = require('http')
 
 expect = chai.expect
 helper = new Helper('../../src/cloud66.coffee')
-{ live_stacks_response, deploying_stacks_response } = require '../mocks/stacks_response.coffee'
+{ live_stacks_response, deploying_stacks_response } = require '../mocks/stacks_response'
 process.env.EXPRESS_PORT = 8080
 
 describe 'POST /hubot/cloud66', ->

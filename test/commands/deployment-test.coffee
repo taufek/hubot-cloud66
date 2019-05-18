@@ -8,8 +8,8 @@ expect = chai.expect
 
 helper = new Helper('../../src/cloud66.coffee')
 
-{ live_stacks_response } = require '../mocks/stacks_response.coffee'
-{ deployments_response } = require '../mocks/deployments_response.coffee'
+{ live_stacks_response } = require '../mocks/stacks_response'
+{ deployments_response } = require '../mocks/deployments_response'
 
 describe 'deployment command', ->
   beforeEach ->

@@ -8,7 +8,7 @@ expect = chai.expect
 
 helper = new Helper('../../src/cloud66.coffee')
 
-{ live_stacks_response } = require '../mocks/stacks_response.coffee'
+{ live_stacks_response } = require '../mocks/stacks_response'
 
 describe 'stacks command', ->
   beforeEach ->
