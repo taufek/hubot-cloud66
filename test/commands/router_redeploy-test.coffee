@@ -68,7 +68,8 @@ describe 'POST /hubot/cloud66', ->
             uid: 'abc-345',
             name: 'backend_app',
             environment: 'development',
-            status: 6
+            status: 6,
+            health: 3
           }
         })
 
@@ -79,7 +80,8 @@ describe 'POST /hubot/cloud66', ->
             uid: 'abc-345',
             name: 'backend_app',
             environment: 'development',
-            status: 6
+            status: 6,
+            health: 3
           }
         })
 
@@ -90,7 +92,8 @@ describe 'POST /hubot/cloud66', ->
             uid: 'abc-345',
             name: 'backend_app',
             environment: 'development',
-            status: 1
+            status: 1,
+            health: 3
           }
         })
 

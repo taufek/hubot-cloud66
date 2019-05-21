@@ -6,6 +6,7 @@ exports.live_stacks_response = {
       environment: 'development'
       is_busy: false
       status: 1
+      health: 3
     },
     {
       uid: 'abc-345'
@@ -13,6 +14,7 @@ exports.live_stacks_response = {
       environment: 'development'
       is_busy: false
       status: 1
+      health: 3
     },
     {
       uid: 'abc-567'
@@ -20,6 +22,7 @@ exports.live_stacks_response = {
       environment: 'development'
       is_busy: false
       status: 1
+      health: 3
     }
   ]
 }
@@ -32,6 +35,7 @@ exports.deploying_stacks_response = {
       environment: 'development'
       is_busy: false
       status: 6
+      health: 3
     },
     {
       uid: 'abc-345'
@@ -39,6 +43,7 @@ exports.deploying_stacks_response = {
       environment: 'development'
       is_busy: false
       status: 6
+      health: 3
     },
     {
       uid: 'abc-567'
@@ -46,6 +51,7 @@ exports.deploying_stacks_response = {
       environment: 'development'
       is_busy: false
       status: 6
+      health: 3
     }
   ]
 }
