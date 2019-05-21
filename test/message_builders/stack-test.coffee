@@ -10,15 +10,33 @@ describe 'stack_message_builder', ->
         adapterName: 'slack'
       }
 
-    context 'live status', () ->
+    context 'status = 1', () ->
       beforeEach ->
         @stack = {
           name: 'backend_app',
           environment: 'development',
-          status: 1
+          status: 1,
+          health: 3
         }
 
         @expectedStatus = 'Live :rocket:'
+        @expectedEnvironment = 'development :globe_with_meridians:'
+
+      it 'returns slack message', ->
+        output = stack_message_builder(@robot, @stack)
+
+        expect(output).to.eql expectedSlackOutput(@stack, @expectedStatus, @expectedEnvironment)
+
+    context 'status = 0', () ->
+      beforeEach ->
+        @stack = {
+          name: 'backend_app',
+          environment: 'development',
+          status: 0,
+          health: 3
+        }
+
+        @expectedStatus = 'Queued :hourglass_flowing_sand:'
         @expectedEnvironment = 'development :globe_with_meridians:'
 
       it 'returns slack message', ->
@@ -31,7 +49,8 @@ describe 'stack_message_builder', ->
         @stack = {
           name: 'backend_app',
           environment: 'development',
-          status: 6
+          status: 6,
+          health: 3
         }
 
         @expectedStatus = 'Deploying :hammer_and_wrench:'
@@ -47,7 +66,8 @@ describe 'stack_message_builder', ->
         @stack = {
           name: 'backend_app',
           environment: 'production',
-          status: 1
+          status: 1,
+          health: 3
         }
 
         @expectedStatus = 'Live :rocket:'
@@ -69,7 +89,8 @@ describe 'stack_message_builder', ->
         @stack = {
           name: 'backend_app',
           environment: 'development',
-          status: 1
+          status: 1,
+          health: 3
         }
 
         @expectedStatus = 'Live :rocket:'
@@ -84,7 +105,8 @@ describe 'stack_message_builder', ->
         @stack = {
           name: 'backend_app',
           environment: 'development',
-          status: 6
+          status: 6,
+          health: 3
         }
 
         @expectedStatus = 'Deploying :hammer_and_wrench:'
@@ -110,7 +132,8 @@ describe 'stack_message_builder', ->
         @stack = {
           name: 'backend_app',
           environment: 'development',
-          status: 1
+          status: 1,
+          health: 3
         }
 
         @expectedStatus = 'Live :rocket:'
@@ -126,7 +149,8 @@ describe 'stack_message_builder', ->
         @stack = {
           name: 'backend_app',
           environment: 'development',
-          status: 6
+          status: 6,
+          health: 3
         }
 
         @expectedStatus = 'Deploying :hammer_and_wrench:'

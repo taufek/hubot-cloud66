@@ -28,7 +28,7 @@ pollingStack = (robot, stack, resolve, reject) ->
     .get() (err, response, body) =>
       @attempt++
       updatedStack = JSON.parse(body).response
-      return resolve(updatedStack) if updatedStack.status == 1
+      return resolve(updatedStack) if updatedStack.status in [1, 2, 7]
       callback = () -> pollingStack(robot, updatedStack, resolve, reject)
       return reject('Deployment taking too long. Run `stack` command to get status update.') if @attempt > (process.env.CLOUD66_MAX_ATTEMPTS || 10)
       timeout = process.env.CLOUD66_INTERVAL_IN_MS || 60000
