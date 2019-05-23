@@ -7,6 +7,12 @@ Hubot for Cloud66
 
 See [`src/cloud66.coffee`](src/cloud66.coffee) for full documentation.
 
+## Requirements
+
+| package         | version  |
+|-----------------|----------|
+| coffeescript    | >= 1.9   |
+
 ## Installation
 
 In hubot project repo, run:
