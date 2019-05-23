@@ -64,7 +64,7 @@ describe 'deployment command', ->
       ]
     )
 
-  context 'stack with existing stack_name containing space', ->
+  context 'deployment with existing stack_name containing space', ->
     beforeEach ->
       nock('https://app.cloud66.com')
         .get('/api/3/stacks.json')
@@ -85,3 +85,42 @@ describe 'deployment command', ->
         ['hubot', 'Here is the latest deployment commit hash for development user app']
         ['hubot', "Commit #{deployments_response.response[0].commit_url}"]
       ]
+
+  context 'deployment with non-existing stack_name', ->
+    beforeEach ->
+      nock('https://app.cloud66.com')
+        .get('/api/3/stacks.json')
+        .reply(200, live_stacks_response)
+
+      co(() =>
+        yield @room.user.say('alice', '@hubot cloud66 deployment development non-existing app')
+        yield new Promise.delay(500)
+      )
+
+    it 'responds to deployment', ->
+      expect(@room.messages).to.eql [
+        ['alice', '@hubot cloud66 deployment development non-existing app']
+        ['hubot', 'Invalid stack_name']
+      ]
+
+  context 'deployment with empty deployments', ->
+    beforeEach ->
+      nock('https://app.cloud66.com')
+        .get('/api/3/stacks.json')
+        .reply(200, live_stacks_response)
+
+      nock('https://app.cloud66.com')
+        .get("/api/3/stacks/abc-345/deployments")
+        .reply(200, [])
+
+      co(() =>
+        yield @room.user.say('alice', '@hubot cloud66 deployment development backend_app')
+        yield new Promise.delay(500)
+      )
+
+    it('responds to development', () ->
+      expect(@room.messages).to.eql [
+        ['alice', '@hubot cloud66 deployment development backend_app']
+        ['hubot', 'No deployment']
+      ]
+    )
