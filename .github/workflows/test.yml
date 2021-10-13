@@ -13,23 +13,18 @@ jobs:
     env:
       MY_RUBY_VERSION: 2.5.0
       RUBY_RAILS_VERSION: 5.2.3
-    timeout-minutes: 15
+    timeout-minutes: 5
     if: |
       !contains(github.event.head_commit.message, '[ci skip]') &&
       !contains(github.event.head_commit.message, '[skip ci]') &&
       github.event.pull_request.draft == false
     steps:
       - uses: actions/checkout@master
-      - name: Retrieve Node Modules Cache
-        uses: actions/cache@v1
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-packages-${{ hashFiles('**/package-lock.json') }}
       - name: Npm Install
         shell: bash
         run: |
-          npm install
           npm install hubot@2.19.0
+          npm install
       - name: Run build script
         shell: bash
         run: |
