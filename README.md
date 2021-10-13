@@ -1,7 +1,7 @@
 # hubot-cloud66
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/4aedde8284c04fb99119695394bbc19d)](https://app.codacy.com/app/taufek/hubot-cloud66?utm_source=github.com&utm_medium=referral&utm_content=taufek/hubot-cloud66&utm_campaign=Badge_Grade_Dashboard)
-[![CircleCI](https://circleci.com/gh/taufek/hubot-cloud66.svg?style=svg)](https://circleci.com/gh/taufek/hubot-cloud66)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/515af61eac90499e9dfe07e45ee52fea)](https://www.codacy.com/gh/taufek/hubot-cloud66/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=taufek/hubot-cloud66&amp;utm_campaign=Badge_Grade)
+![GitHub Action Test](https://github.com/taufek/hubot-cloud66/actions/workflows/test.yml/badge.svg?branch=master)
 
 Hubot for Cloud66
 
